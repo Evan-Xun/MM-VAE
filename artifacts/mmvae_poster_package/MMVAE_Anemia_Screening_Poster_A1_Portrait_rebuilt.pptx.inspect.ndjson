@@ -1,0 +1,75 @@
+{"kind":"deck","id":"pr/uvqsyl","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"PoE fusion preserves","textShapes":44}
+{"kind":"shape","id":"sh/7q1kfudo","slide":1,"name":"header","bbox":[0,0,2245,455]}
+{"kind":"shape","id":"sh/547294r6","slide":1,"name":"header-accent","bbox":[0,439,2245,16]}
+{"kind":"textbox","id":"sh/k3yl0zql","slide":1,"name":"title","text":"PoE fusion preserves\nanemia screening without HGB","textPreview":"PoE fusion preserves | anemia screening without HGB","textChars":49,"textLines":2,"bbox":[78,36,1590,205]}
+{"kind":"textbox","id":"sh/7qp4be9c","slide":1,"name":"authors","text":"Fengxun Liu · Yuxuan Huang · Zeyuan Li · Xiaolin Li*","textPreview":"Fengxun Liu · Yuxuan Huang · Zeyuan Li · Xiaolin Li*","textChars":52,"textLines":1,"bbox":[82,280,1550,38]}
+{"kind":"textbox","id":"sh/65g3298r","slide":1,"name":"affiliations","text":"Xiamen University Malaysia  |  The Second Affiliated Hospital of Nanchang University","textPreview":"Xiamen University Malaysia  |  The Second Affiliated Hospital of Nanchang University","textChars":84,"textLines":1,"bbox":[82,333,1600,34]}
+{"kind":"shape","id":"sh/ts7md4r2","slide":1,"name":"headline-panel","bbox":[1730,62,430,308]}
+{"kind":"textbox","id":"sh/sryl4zqx","slide":1,"name":"headline-label","text":"FIVE-SEED MEAN","textPreview":"FIVE-SEED MEAN","textChars":14,"textLines":1,"bbox":[1770,93,350,36]}
+{"kind":"textbox","id":"sh/fu94fe98","slide":1,"name":"headline-f1","text":"F1  0.786 ± 0.007","textPreview":"F1  0.786 ± 0.007","textChars":17,"textLines":1,"bbox":[1764,148,362,42]}
+{"kind":"textbox","id":"sh/utg3698n","slide":1,"name":"headline-auc","text":"ROC-AUC  0.856 ± 0.021","textPreview":"ROC-AUC  0.856 ± 0.021","textChars":22,"textLines":1,"bbox":[1748,210,395,42]}
+{"kind":"textbox","id":"sh/wn6dc7eh","slide":1,"name":"headline-note","text":"MM-VAE · AneRBC · 5 random seeds","textPreview":"MM-VAE · AneRBC · 5 random seeds","textChars":32,"textLines":1,"bbox":[1754,298,382,30]}
+{"kind":"shape","id":"sh/hofulsf2","slide":1,"name":"why-panel","bbox":[70,500,1030,930]}
+{"kind":"shape","id":"sh/ul4vaxgb","slide":1,"name":"why-rule","bbox":[70,500,1030,18]}
+{"kind":"textbox","id":"sh/vmdcj2xw","slide":1,"name":"why-head","text":"1  WHY MULTIMODAL SCREENING?","textPreview":"1  WHY MULTIMODAL SCREENING?","textChars":28,"textLines":1,"bbox":[106,545,950,48]}
+{"kind":"textbox","id":"sh/4r6dg7et","slide":1,"name":"why-copy","text":"CBC: strong quantitative signal, but may over-rely on HGB.\n\nBlood smear: complementary morphology, but weak alone in the current embedding.\n\nDirect concatenation: combines features without explicit uncertainty.","textPreview":"CBC: strong quantitative signal, but may over-rely on HGB. |  | Blood smear: complementary morphology, but weak alone in the current embe...","textChars":210,"textLines":5,"bbox":[110,620,930,205]}
+{"kind":"shape","id":"sh/5sfepcfe","slide":1,"name":"question-callout","bbox":[106,880,959.5,92]}
+{"kind":"textbox","id":"sh/ipovexwn","slide":1,"name":"question","text":"Question: can uncertainty-aware fusion remain useful when HGB is withheld?","textPreview":"Question: can uncertainty-aware fusion remain useful when HGB is withheld?","textChars":74,"textLines":1,"bbox":[130,902,910,42]}
+{"kind":"textbox","id":"sh/3qxwn2x8","slide":1,"name":"workflow-head","text":"FIG. 1  PATIENT-LEVEL PIPELINE","textPreview":"FIG. 1  PATIENT-LEVEL PIPELINE","textChars":30,"textLines":1,"bbox":[106,980,950,38]}
+{"kind":"shape","id":"sh/sfqdkrep","slide":1,"name":"workflow-frame","bbox":[106,1060,959.5,322]}
+{"kind":"shape","id":"sh/1cvuxc7e","slide":1,"name":"method-panel","bbox":[1145,500,1030,930]}
+{"kind":"shape","id":"sh/0bmd476t","slide":1,"name":"method-rule","bbox":[1145,500,1030,18]}
+{"kind":"textbox","id":"sh/zadcv2p8","slide":1,"name":"method-head","text":"FIG. 2  PoE MM-VAE: PROBABILISTIC FUSION","textPreview":"FIG. 2  PoE MM-VAE: PROBABILISTIC FUSION","textChars":40,"textLines":1,"bbox":[1180,545,950,52]}
+{"kind":"textbox","id":"sh/e94v2hon","slide":1,"name":"method-copy","text":"CBC features + missingness mask and pooled smear embeddings form two Gaussian experts. Product-of-Experts fusion creates a 16-D shared latent space for reconstruction and anemia classification.","textPreview":"CBC features + missingness mask and pooled smear embeddings form two Gaussian experts. Product-of-Experts fusion creates a 16-D shared la...","textChars":193,"textLines":1,"bbox":[1182,615,945,112]}
+{"kind":"shape","id":"sh/90ve1w7q","slide":1,"name":"architecture-frame","bbox":[1179.5,790,959.5,270]}
+{"kind":"shape","id":"sh/nydczmpk","slide":1,"name":"poe-callout","bbox":[1179.5,1084,959.5,108]}
+{"kind":"textbox","id":"sh/mx4v6hoz","slide":1,"name":"poe-callout-copy","text":"Why PoE instead of concatenation?\nPrecision-weighted fusion lets each modality contribute according to estimated uncertainty.","textPreview":"Why PoE instead of concatenation? | Precision-weighted fusion lets each modality contribute according to estimated uncertainty.","textChars":125,"textLines":2,"bbox":[1210,1101,895,75]}
+{"kind":"textbox","id":"sh/p4bu5s76","slide":1,"name":"setup-head","text":"EXPERIMENTAL SETUP","textPreview":"EXPERIMENTAL SETUP","textChars":18,"textLines":1,"bbox":[1180,1240,950,34]}
+{"kind":"textbox","id":"sh/432dwn6l","slide":1,"name":"setup-copy","text":"AneRBC · 700 / 150 / 150 patient-level split · frozen ResNet-18\nAdam 0.001 · batch 32 · KL warm-up · early stopping","textPreview":"AneRBC · 700 / 150 / 150 patient-level split · frozen ResNet-18 | Adam 0.001 · batch 32 · KL warm-up · early stopping","textChars":115,"textLines":2,"bbox":[1182,1288,945,64]}
+{"kind":"shape","id":"sh/uxgjq907","slide":1,"name":"evidence-band","bbox":[0,1470,2245,44]}
+{"kind":"textbox","id":"sh/vyp0je1s","slide":1,"name":"evidence-title","text":"KEY RESULT: MM-VAE STAYS STABLE WHEN HGB IS REMOVED","textPreview":"KEY RESULT: MM-VAE STAYS STABLE WHEN HGB IS REMOVED","textChars":51,"textLines":1,"bbox":[75,1522,2095,50]}
+{"kind":"shape","id":"sh/wzy1szid","slide":1,"name":"ablation-hero","bbox":[70,1600,1030,690]}
+{"kind":"textbox","id":"sh/h072l4jy","slide":1,"name":"ablation-head","text":"FIG. 3  HGB ABLATION · REPRESENTATIVE RUN","textPreview":"FIG. 3  HGB ABLATION · REPRESENTATIVE RUN","textChars":41,"textLines":1,"bbox":[104,1634,955,38]}
+{"kind":"textbox","id":"sh/i1gje90j","slide":1,"name":"ablation-subhead","text":"Removing HGB sharply reduces CBC-only performance, while MM-VAE is stable.","textPreview":"Removing HGB sharply reduces CBC-only performance, while MM-VAE is stable.","textChars":74,"textLines":1,"bbox":[108,1683,950,34]}
+{"kind":"shape","id":"sh/j2pkne14","slide":1,"name":"cbc-collapse","bbox":[115,1740,425,150]}
+{"kind":"textbox","id":"sh/43y1gji9","slide":1,"name":"cbc-label","text":"CBC-only F1","textPreview":"CBC-only F1","textChars":11,"textLines":1,"bbox":[135,1760,385,30]}
+{"kind":"textbox","id":"sh/54r2poju","slide":1,"name":"cbc-value","text":"0.713 → 0.388","textPreview":"0.713 → 0.388","textChars":13,"textLines":1,"bbox":[130,1802,390,38]}
+{"kind":"shape","id":"sh/y5wjip0z","slide":1,"name":"mmvae-stable","bbox":[630,1740,425,150]}
+{"kind":"textbox","id":"sh/z650ba1k","slide":1,"name":"mmvae-label","text":"MM-VAE F1","textPreview":"MM-VAE F1","textChars":9,"textLines":1,"bbox":[650,1760,385,30]}
+{"kind":"textbox","id":"sh/z2xgf6to","slide":1,"name":"mmvae-value","text":"0.795 → 0.795","textPreview":"0.795 → 0.795","textChars":13,"textLines":1,"bbox":[647,1802,390,38]}
+{"kind":"textbox","id":"sh/e1oz61c3","slide":1,"name":"ablation-auc","text":"MM-VAE ROC-AUC: 0.839 → 0.823","textPreview":"MM-VAE ROC-AUC: 0.839 → 0.823","textChars":29,"textLines":1,"bbox":[150,1915,870,38]}
+{"kind":"textbox","id":"sh/036h8but","slide":1,"name":"ablation-note","text":"Fig. 3. Across the representative ablation, non-HGB CBC indicators and smear morphology preserve MM-VAE discrimination.","textPreview":"Fig. 3. Across the representative ablation, non-HGB CBC indicators and smear morphology preserve MM-VAE discrimination.","textChars":119,"textLines":1,"bbox":[113,2240,940,34]}
+{"kind":"shape","id":"sh/nqxgjqtk","slide":1,"name":"five-seed","bbox":[1145,1600,1030,365]}
+{"kind":"textbox","id":"sh/mpozalcz","slide":1,"name":"five-seed-head","text":"FIVE-SEED MEAN PERFORMANCE","textPreview":"FIVE-SEED MEAN PERFORMANCE","textChars":26,"textLines":1,"bbox":[1170,1634,980,38]}
+{"kind":"textbox","id":"sh/9sfylgbq","slide":1,"name":"five-seed-note","text":"MM-VAE exceeds direct concatenation on F1, ROC-AUC and NPV; no formal significance test is claimed.","textPreview":"MM-VAE exceeds direct concatenation on F1, ROC-AUC and NPV; no formal significance test is claimed.","textChars":99,"textLines":1,"bbox":[1180,1680,960,40]}
+{"kind":"shape","id":"sh/or6hcvu5","slide":1,"name":"table-mmvae-column","bbox":[1795,1732,315,198]}
+{"kind":"textbox","id":"sh/buh0nqtg","slide":1,"name":"table-header","text":"Metric","textPreview":"Metric","textChars":6,"textLines":1,"bbox":[1195,1748,185,28]}
+{"kind":"textbox","id":"sh/at8zelcb","slide":1,"name":"table-concat-head","text":"Concat Fusion","textPreview":"Concat Fusion","textChars":13,"textLines":1,"bbox":[1430,1748,300,28]}
+{"kind":"textbox","id":"sh/8zqx4vq9","slide":1,"name":"table-mmvae-head","text":"MM-VAE","textPreview":"MM-VAE","textChars":6,"textLines":1,"bbox":[1810,1748,285,28]}
+{"kind":"textbox","id":"sh/t0jyd0ru","slide":1,"name":"table-rows","text":"F1\nROC-AUC\nNPV","textPreview":"F1 | ROC-AUC | NPV","textChars":14,"textLines":3,"bbox":[1195,1790,180,120]}
+{"kind":"textbox","id":"sh/6x8f2583","slide":1,"name":"table-concat-values","text":"0.763 ± 0.020\n0.836 ± 0.009\n0.781 ± 0.037","textPreview":"0.763 ± 0.020 | 0.836 ± 0.009 | 0.781 ± 0.037","textChars":41,"textLines":3,"bbox":[1430,1790,300,120]}
+{"kind":"textbox","id":"sh/7yhgbq9o","slide":1,"name":"table-mmvae-values","text":"0.786 ± 0.007\n0.856 ± 0.021\n0.801 ± 0.016","textPreview":"0.786 ± 0.007 | 0.856 ± 0.021 | 0.801 ± 0.016","textChars":41,"textLines":3,"bbox":[1805,1790,300,120]}
+{"kind":"shape","id":"sh/kvqx0vqd","slide":1,"name":"missingness","bbox":[1145,1998,1030,292]}
+{"kind":"textbox","id":"sh/lwzy90ry","slide":1,"name":"missingness-head","text":"MISSING-MODALITY EVALUATION · REPRESENTATIVE RUN","textPreview":"MISSING-MODALITY EVALUATION · REPRESENTATIVE RUN","textChars":48,"textLines":1,"bbox":[1170,2027,980,34]}
+{"kind":"shape","id":"sh/yt8fyl87","slide":1,"name":"image-missing","bbox":[1190,2090,420,116]}
+{"kind":"textbox","id":"sh/juhg7q9s","slide":1,"name":"image-missing-value","text":"IMAGE MISSING\nROC-AUC 0.726","textPreview":"IMAGE MISSING | ROC-AUC 0.726","textChars":27,"textLines":2,"bbox":[1200,2110,400,66]}
+{"kind":"shape","id":"sh/wr6xwbq1","slide":1,"name":"cbc-missing","bbox":[1710,2090,420,116]}
+{"kind":"textbox","id":"sh/xsfy5grm","slide":1,"name":"cbc-missing-value","text":"CBC MISSING\nROC-AUC 0.589","textPreview":"CBC MISSING | ROC-AUC 0.589","textChars":25,"textLines":2,"bbox":[1720,2110,400,66]}
+{"kind":"textbox","id":"sh/dc7md8fe","slide":1,"name":"missingness-note","text":"CBC is the stronger expert; smear images provide complementary evidence when available.","textPreview":"CBC is the stronger expert; smear images provide complementary evidence when available.","textChars":87,"textLines":1,"bbox":[1180,2230,950,30]}
+{"kind":"shape","id":"sh/cby5k3yt","slide":1,"name":"footer","bbox":[0,2365,2245,813]}
+{"kind":"shape","id":"sh/ra54bix8","slide":1,"name":"footer-top-rule","bbox":[0,2365,2245,12]}
+{"kind":"textbox","id":"sh/q9wnidgn","slide":1,"name":"clinical-head","text":"POTENTIAL CLINICAL ROLE","textPreview":"POTENTIAL CLINICAL ROLE","textChars":23,"textLines":1,"bbox":[90,2435,950,48]}
+{"kind":"textbox","id":"sh/5onm98f2","slide":1,"name":"clinical-copy","text":"Auxiliary screening only\n• Reuse routine CBC from the laboratory information system\n• Add smear embeddings when microscopy is available\n• Route probabilities to clinician-led triage\n• Complements—not replaces—clinical diagnosis","textPreview":"Auxiliary screening only | • Reuse routine CBC from the laboratory information system | • Add smear embeddings when microscopy is availab...","textChars":227,"textLines":5,"bbox":[90,2510,1020,245]}
+{"kind":"textbox","id":"sh/4ne5g3yh","slide":1,"name":"limits-head","text":"LIMITATIONS & NEXT STEPS","textPreview":"LIMITATIONS & NEXT STEPS","textChars":24,"textLines":1,"bbox":[1165,2435,760,48]}
+{"kind":"textbox","id":"sh/3m547yxw","slide":1,"name":"limits-copy","text":"• Single public dataset\n• Frozen image encoder\n• No prospective clinical validation\n\nNext: multi-center validation · stronger image encoder · threshold calibration","textPreview":"• Single public dataset | • Frozen image encoder | • No prospective clinical validation |  | Next: multi-center validation · stronger ima...","textChars":163,"textLines":5,"bbox":[1165,2510,790,240]}
+{"kind":"shape","id":"sh/ilw3etgr","slide":1,"name":"qr-placeholder","bbox":[1975,2440,185,185]}
+{"kind":"textbox","id":"sh/9kr6lsfm","slide":1,"name":"qr-label","text":"QR\nPROJECT / PAPER\nLINK","textPreview":"QR | PROJECT / PAPER | LINK","textChars":23,"textLines":3,"bbox":[1988,2482,160,100]}
+{"kind":"textbox","id":"sh/oji5sne1","slide":1,"name":"footer-source","text":"Data: AneRBC. Figures and metrics: supplied manuscript and project results. Replace QR placeholder before submission.","textPreview":"Data: AneRBC. Figures and metrics: supplied manuscript and project results. Replace QR placeholder before submission.","textChars":117,"textLines":1,"bbox":[90,3005,1800,30]}
+{"kind":"textbox","id":"sh/6psjmpwj","slide":1,"name":"footer-contact","text":"*Corresponding author: ndefy21158@ncu.edu.cn","textPreview":"*Corresponding author: ndefy21158@ncu.edu.cn","textChars":44,"textLines":1,"bbox":[90,3060,1200,30]}
+{"kind":"image","id":"im/nqlkzutg","slide":1,"name":"","bbox":[143,1078,885,280]}
+{"kind":"image","id":"im/mps36pcv","slide":1,"name":"","bbox":[1205,812,907,226]}
+{"kind":"image","id":"im/loj2xkba","slide":1,"name":"","bbox":[126,1980,918,245]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":"[Sources]\nStudy claims, metrics and figures: local project sources recorded in .tmp_poster_rebuild/source-notes.txt.\nDesign guidance consulted: Karolinska Institutet poster design; RMIT Learning Lab poster presentations."}

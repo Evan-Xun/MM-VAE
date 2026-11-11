@@ -1,0 +1,239 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{placeins}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+\title{MM-VAE: A Multimodal Variational Autoencoder for Anemia Screening via CBC Indicators and Blood Smear Imagery}
+
+\author{
+\IEEEauthorblockN{Fengxun Liu}
+\IEEEauthorblockA{\textit{School of Computing and Data Science} \\
+\textit{Xiamen University Malaysia}\\
+Sepang, 43900, Malaysia \\
+SWE2309525@xmu.edu.my}
+\and
+\IEEEauthorblockN{Yuxuan Huang}
+\IEEEauthorblockA{\textit{School of Computing and Data Science} \\
+\textit{Xiamen University Malaysia}\\
+Sepang, 43900, Malaysia \\
+SWE2309515@xmu.edu.my}
+\and
+\IEEEauthorblockN{Zeyuan Li}
+\IEEEauthorblockA{\textit{School of Computing and Data Science} \\
+\textit{Xiamen University Malaysia}\\
+Sepang, 43900, Malaysia \\
+SWE2309523@xmu.edu.my}
+\and
+\IEEEauthorblockN{Xiaolin Li\textsuperscript{*}}
+\IEEEauthorblockA{\textit{Department of Clinical Laboratory} \\
+\textit{The Second Affiliated Hospital of Nanchang University}\\
+Nanchang, Jiangxi, China \\
+ndefy21158@ncu.edu.cn}
+}
+
+\maketitle
+
+\begingroup
+\renewcommand\thefootnote{}
+\footnotetext{\textsuperscript{*}Corresponding author.}
+\endgroup
+
+\begin{abstract}
+Anemia screening can benefit from both Complete Blood Count (CBC) indicators and peripheral blood smear microscopy, which provide quantitative hematological evidence and visual morphological evidence, respectively. This paper proposes a patient-level anemia screening framework based on a Multimodal Variational Autoencoder (MM-VAE). The model integrates CBC features and red blood cell image embeddings into a shared latent space through a Product-of-Experts (PoE) mechanism and is trained with joint reconstruction and classification supervision. On the AneRBC dataset, MM-VAE outperforms unimodal baselines and Concat Fusion, achieving a mean F1-score of 0.786 $\pm$ 0.007 and a mean ROC-AUC of 0.856 $\pm$ 0.021 across five random seeds. HGB ablation and missing-modality experiments further show that the model learns cross-modal complementarity and can still make predictions when one modality is unavailable.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Anemia screening, multimodal learning, variational autoencoder, Product-of-Experts, complete blood count, blood smear microscopy
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Anemia is a common hematologic disorder and is usually screened by Complete Blood Count (CBC). Indicators such as HGB, RBC, HCT, MCV, MCH, MCHC, and RDW-CV provide quantitative information about red blood cells, while peripheral blood smear microscopy provides morphological information such as cell size, shape, and staining. Recent deep learning studies have improved anemia-related image analysis and red blood cell classification \cite{ref1,ref2}, and the AneRBC dataset provides paired microscopy images, CBC reports, and annotations for multimodal anemia research \cite{ref3}.
+
+However, most existing approaches still rely on a single modality. CBC-based methods are clinically interpretable but may over-rely on strong indicators such as HGB, while image-based methods are sensitive to image quality, staining variation, and limited data. Simple multimodal fusion, such as feature concatenation, can combine inputs but does not explicitly model uncertainty or missing modalities. Attention fusion and cross-modal Transformer methods can capture richer interactions, but they are usually more data-hungry and computationally heavier, which is not ideal for small medical datasets with incomplete inputs.
+
+This paper proposes a patient-level MM-VAE for anemia screening. CBC indicators and RBC image embeddings are encoded into modality-specific posterior distributions and fused by a Product-of-Experts (PoE) mechanism. Different from direct feature concatenation, PoE performs probabilistic latent-space fusion, allowing each modality to contribute according to its uncertainty and supporting inference when one modality is absent. This is especially meaningful for anemia screening because CBC and smear images provide complementary but unequal evidence. The study further uses a mask-based CBC reconstruction loss, KL warm-up, HGB ablation, missing-modality evaluation, and multi-seed testing to assess performance, complementarity, and robustness.
+
+\section{Related Work}
+
+\subsection{Computer-aided anemia detection and image analysis}
+
+Computer-aided anemia detection mainly relies on structured blood indicators, medical images, or their combination. CBC indicators such as HGB, RBC, HCT, MCV, MCH, MCHC, and RDW-CV reflect anemia-related hematological changes, and machine learning methods have been used to improve automated blood sample analysis \cite{ref4}. Imaging-based studies also extract visual signals from fundus, conjunctiva, or red blood cell microscopy images for anemia-related screening \cite{ref5}. Blood smear microscopy can directly show red blood cell size, shape, color, and arrangement, and deep learning has been used to identify anemia-related morphological abnormalities \cite{ref6,ref7}.
+
+Despite these advances, CBC-only methods may rely heavily on HGB, and image-only methods are limited by image quality, staining variability, and weak standalone discriminative power. Existing image analysis also focuses more on disease-specific morphology classification than patient-level fusion with CBC reports. Therefore, how to integrate quantitative CBC evidence and visual smear evidence remains an important problem.
+
+\subsection{VAE and multimodal representation learning}
+
+The VAE maps inputs into latent distributions and reconstructs them from latent variables, making it suitable for learning compact representations from heterogeneous medical data \cite{ref8}. For multimodal data, Wu and Goodman introduced Product-of-Experts fusion, which combines posterior distributions from different modalities and naturally supports missing-modality inference \cite{ref9}. Compared with early fusion, late fusion, attention fusion, or cross-modal Transformer fusion, PoE is lighter and more suitable for limited medical datasets because it integrates evidence at the probabilistic latent level instead of requiring large paired data for complex interaction modeling. Multimodal VAE has shown feasibility in medical multi-source fusion, such as cardiac hemodynamic instability detection \cite{ref10}, but its use for fusing CBC reports and red blood cell microscopy in anemia screening remains insufficiently explored.
+
+\section{Methodology}
+
+\subsection{Research framework}
+
+This study develops a patient-level anemia screening framework on the AneRBC dataset. As shown in Fig.~\ref{fig:framework}, the workflow includes data preparation, feature representation, baseline training, MM-VAE training, and test evaluation. Rule-based, CBC-only, Image-only, and Concat Fusion baselines are compared with the proposed MM-VAE to assess classification performance, cross-modal complementarity, and robustness under HGB ablation and missing-modality inference.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/image1.png}
+\caption{Overall framework of the proposed patient-level anemia screening system.}
+\label{fig:framework}
+\end{figure*}
+
+\subsection{Data preparation and preprocessing}
+
+This study adopts patient-level modeling. Each sample contains one CBC report, twelve RBC patch images, and one binary label. Stratified splitting is performed before loading patches, so all patches from the same case remain in the same subset. The training, validation, and test sets follow a 70/15/15 ratio, corresponding to 700, 150, and 150 cases.
+
+For CBC, two feature configurations are used: core\_with\_hgb contains RBC, HGB, HCT, MCV, MCH, MCHC, and RDW-CV, while core\_without\_hgb removes HGB to test over-reliance on this dominant indicator. Each indicator also has a cbc\_mask flag, where 1 means observed and 0 means missing. Missing CBC values are imputed using the training-set median, and all CBC features are standardized by z-score normalization using only the training-set mean and standard deviation.
+
+For images, each patch is resized to 224 $\times$ 224 and normalized with ImageNet RGB statistics. A frozen ImageNet-pretrained ResNet-18 without its final classification layer extracts a 512-dimensional patch embedding. The twelve patch embeddings from one case are mean-pooled into a 512-dimensional patient-level image embedding. This cached embedding design reduces repeated CNN computation and lowers overfitting risk on the limited dataset.
+
+\subsection{Model design}
+
+Five methods are compared: rule-based HGB threshold, CBC-only, Image-only, Concat Fusion, and MM-VAE. All learning-based models using CBC also receive cbc\_mask, so they can use both imputed standardized values and missingness status.
+
+As shown in Fig.~\ref{fig:mmvvae}, MM-VAE takes the standardized CBC vector, cbc\_mask, and image embedding as input. The CBC encoder concatenates CBC features and cbc\_mask, then uses two 64-unit fully connected layers with ReLU activation to estimate the CBC posterior mean and log-variance. The image encoder uses two fully connected layers with 256 and 128 units to estimate the image posterior from the 512-dimensional image embedding. The modality-specific posteriors are fused by PoE together with a standard Gaussian prior. The fused posterior is computed by precision-weighted combination of means and variances; the latent variable is sampled during training and replaced by the posterior mean during evaluation. The latent dimension is 16.
+
+Different modalities contribute through posterior distributions rather than direct raw-feature concatenation. The CBC branch mainly contributes quantitative hematological evidence, and the image branch contributes morphological evidence. In PoE, a modality with lower estimated uncertainty constrains the fused latent posterior more strongly, while a less certain modality contributes more softly. The shared latent variable can therefore be interpreted as probabilistic integration of available clinical and visual evidence.
+
+From the shared latent variable, the model reconstructs CBC features, reconstructs the image embedding, and predicts anemia. The CBC decoder uses a 64-unit hidden layer; the image decoder uses a 128-unit hidden layer; and the classifier contains a 64-unit hidden layer, ReLU, dropout of 0.2, and a final binary output. This design preserves the advantages of multimodal fusion while allowing inference with one missing modality.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/image2.png}
+\caption{Architecture of the proposed MM-VAE model.}
+\label{fig:mmvvae}
+\end{figure*}
+
+\subsection{Training strategy, experimental setup, and evaluation metrics}
+
+The MM-VAE objective includes CBC reconstruction, image embedding reconstruction, KL divergence, and classification loss:
+
+\begin{equation}
+\mathcal{L}=\mathcal{L}_{cbc}+\alpha\mathcal{L}_{img}+\beta\mathcal{L}_{kl}+\lambda\mathcal{L}_{cls}
+\label{eq:loss}
+\end{equation}
+
+The CBC reconstruction loss is a mask-based mean squared error over observed indicators only, preventing imputed values from dominating training. Image reconstruction uses mean squared error on the cached 512-dimensional embedding, KL divergence regularizes the fused posterior, and classification uses binary cross-entropy with logits. The model is trained with Adam, learning rate 0.001, weight decay 1e-5, batch size 32, and at most 100 epochs. Early stopping patience is 15 epochs. KL warm-up is applied for the first 20 epochs. The final weights for image reconstruction, KL loss, and classification loss are 0.1, 0.1, and 10.0, respectively. Model selection uses validation ROC-AUC when available, otherwise validation F1.
+
+Table~\ref{tab:experiment-design} summarizes the experiments: main comparison, HGB ablation, and missing-modality robustness. Missing-modality inference is evaluated without retraining in one unified MM-VAE.
+
+\begin{table*}[t]
+\caption{Experimental design summary.}
+\label{tab:experiment-design}
+\centering
+\small
+\begin{tabular}{p{0.06\textwidth}p{0.15\textwidth}p{0.18\textwidth}p{0.12\textwidth}p{0.08\textwidth}p{0.28\textwidth}}
+\hline
+\textbf{ID} & \textbf{Model} & \textbf{CBC} & \textbf{Image} & \textbf{HGB} & \textbf{Purpose} \\
+\hline
+G0 & Rule-based & HGB only & N/A & Yes & Clinical baseline \\
+G1 & CBC-only & core\_with\_hgb & N/A & Yes & Unimodal (with HGB) \\
+G2 & CBC-only & core\_without\_hgb & N/A & No & Unimodal (without HGB) \\
+G3 & Image-only & N/A & Embedding & No & Unimodal image \\
+G4 & Concat Fusion & core\_without\_hgb & Embedding & No & Fusion baseline (no HGB) \\
+G5 & MM-VAE & core\_without\_hgb & Embedding & No & Proposed (no HGB) \\
+G6 & Concat Fusion & core\_with\_hgb & Embedding & Yes & Fusion baseline (with HGB) \\
+G7 & MM-VAE & core\_with\_hgb & Embedding & Yes & Proposed (with HGB) \\
+\hline
+\end{tabular}
+\end{table*}
+
+Anemia screening is evaluated as binary classification using accuracy, precision, recall, specificity, NPV, F1 score, and ROC-AUC. Clinically, recall corresponds to sensitivity and reflects missed-screening risk; specificity reflects false-positive burden; precision reflects positive predictive reliability; and NPV reflects how confidently the model can exclude anemia. F1 summarizes precision--recall balance, while ROC-AUC measures threshold-independent ranking ability. Natural missing CBC values are handled by median imputation and cbc\_mask, and additional modality-level missingness is simulated at inference time.
+
+\section{Results And Analysis}
+
+\subsection{Main comparison experiment}
+
+Five methods were compared under the core\_with\_hgb setting (Fig.~\ref{fig:main-results}). The rule-based baseline used the full 150-case test set after missing HGB imputation, and learning-based models were evaluated across five random seeds.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/image3.png}
+\caption{Results under the core\_with\_hgb setting.}
+\label{fig:main-results}
+\end{figure*}
+
+The rule-based baseline achieved high recall (0.8800) but low specificity (0.3200), showing the typical sensitivity--specificity trade-off of a fixed HGB threshold. CBC-only was more balanced, with 0.7000 accuracy and 0.7134 F1. Concat Fusion improved over unimodal baselines, while MM-VAE achieved the best overall performance, with 0.7773 accuracy, 0.7856 F1, and 0.8561 ROC-AUC. Its mean NPV was also higher and more stable than Concat Fusion (0.801 $\pm$ 0.016 vs. 0.781 $\pm$ 0.037), suggesting a more reliable negative screening result. The Image-only model became an all-positive classifier, with recall of 1.0000 and specificity of 0.0000, indicating weak standalone image discriminative power.
+
+These results support the advantage of PoE-based latent fusion. Concat Fusion shows that the two modalities are complementary, but the further improvement of MM-VAE indicates that probabilistic latent-space fusion can use this complementarity more effectively than direct feature concatenation, especially under limited data and possible missing-modality settings.
+
+\subsection{HGB ablation experiment}
+
+Removing HGB tests whether each model depends on one dominant indicator or learns complementary information. Fig.~\ref{fig:hgb-ablation} compares CBC-only, Concat Fusion, and MM-VAE with and without HGB.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/image4.png}
+\caption{Performance under with\_hgb and without\_hgb configurations.}
+\label{fig:hgb-ablation}
+\end{figure*}
+
+CBC-only deteriorated sharply after HGB removal: F1 dropped from 0.7134 to 0.3883 and recall from 0.7467 to 0.2667, with specificity increasing to 0.8933. In contrast, MM-VAE remained stable. Its F1 changed from 0.7950 to 0.7952, ROC-AUC from 0.8390 to 0.8234, and NPV from 0.8281 to 0.8475. Concat Fusion was less consistent: accuracy and F1 slightly improved, but ROC-AUC decreased from 0.8339 to 0.8063.
+
+This result indicates that MM-VAE does not simply depend on HGB. In the latent space, removing HGB weakens the CBC posterior, but the fused representation can still receive evidence from the remaining CBC indicators and the image posterior. The image modality therefore acts as a supplementary latent expert, helping reduce dependence on a single CBC feature.
+
+\subsection{Missing-modality robustness experiment}
+
+To test PoE robustness, the core\_with\_hgb MM-VAE was evaluated under complete, missing\_image, and missing\_cbc modes without retraining (Fig.~\ref{fig:missing-modality}).
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{figures/image5.png}
+\caption{Missing-modality inference results of MM-VAE under core\_with\_hgb.}
+\label{fig:missing-modality}
+\end{figure}
+
+When the image modality was removed, the model still achieved 0.7000 accuracy, 0.7262 ROC-AUC, and 0.7419 NPV, showing that PoE can maintain useful prediction when CBC is available. When CBC was removed, accuracy, F1, ROC-AUC, and NPV decreased to 0.5333, 0.4531, 0.5892, and 0.5258, respectively. These results show asymmetric latent contributions: CBC is the stronger quantitative expert, while the image branch provides useful but weaker complementary evidence. Thus, the current image representation is not sufficient for standalone screening, although it improves multimodal prediction when combined with CBC.
+
+To further simulate clinical missingness, the same trained checkpoint was evaluated with 0\%, 25\%, 50\%, 75\%, and 100\% of test samples randomly assigned to missing-image or missing-CBC mode. The remaining samples used complete mode. The experiment was repeated with five random seeds (Fig.~\ref{fig:missing-rate}).
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/image6.png}
+\caption{Performance changes under gradual modality-level missingness simulation.}
+\label{fig:missing-rate}
+\end{figure*}
+
+Gradual missingness confirmed the same pattern. With image missingness increasing from 0\% to 100\%, ROC-AUC, F1, and NPV decreased from 0.8390, 0.7950, and 0.8281 to 0.7262, 0.7239, and 0.7419. With CBC missingness, the decline was steeper: at 50\% missingness, ROC-AUC, F1, and NPV were 0.7259, 0.6143, and 0.6213, and at 100\% they decreased to 0.5892, 0.4531, and 0.5258. Therefore, CBC remains the dominant clinical modality, while image information mainly improves and stabilizes prediction when available.
+
+\FloatBarrier
+
+\section{Clinical Application And Limitations}
+
+For deployment, the proposed model should be used as an auxiliary screening tool rather than an independent diagnostic system. In a hospital workflow, CBC indicators can be parsed from routine blood tests, blood smear patches can be converted into patient-level image embeddings when microscopy is available, and MM-VAE can output an anemia screening probability for doctor-assisted triage. Because image embeddings are cached and the final MM-VAE mainly uses fully connected layers, inference is lightweight after feature extraction. The method does not replace low-cost CBC screening; instead, it uses available CBC and smear evidence more efficiently and can still operate when one modality is absent.
+
+Several limitations remain. The study uses a single public dataset, so multi-center validation is needed across instruments, staining protocols, populations, and imaging conditions. The frozen mean-pooled image embedding limits standalone image performance, and the decision threshold has not been clinically calibrated by sex, age, anemia severity, or hospital-specific requirements. Therefore, the output should be interpreted as a risk suggestion, not a final diagnosis. Future deployment should include prospective validation, threshold calibration, laboratory information system integration, and an interface showing prediction probability, missing-modality status, and follow-up suggestions.
+
+\FloatBarrier
+
+\section{Conclusion}
+
+This paper presents an MM-VAE framework for patient-level anemia screening by jointly modeling CBC indicators and red blood cell image embeddings. Compared with unimodal models and Concat Fusion, MM-VAE achieved better overall performance and stronger stability across seven evaluation metrics. The PoE mechanism provides probabilistic latent-space fusion, supports missing-modality inference, and helps integrate quantitative hematological evidence with visual morphological evidence.
+
+HGB ablation showed that MM-VAE does not mainly depend on one dominant CBC indicator, while missing-modality and gradual missingness experiments showed that CBC is the stronger modality and image information acts as useful complementary evidence. Future work will focus on fine-tuned or attention-based image encoders, external multi-center validation, clinical threshold calibration, and latent-space interpretability analysis.
+
+
+\FloatBarrier
+\begin{thebibliography}{00}
+\bibitem{ref1} A. Zhang et al., Prediction of anemia using facial images and deep learning technology in the emergency department. Front. Public Health 10, 964385 (2022), doi: 10.3389/fpubh.2022.964385.
+\bibitem{ref2} L. Alzubaidi, M.A. Fadhel, O. Al-Shamma, J. Zhang, Y. Duan, Deep Learning Models for Classification of Red Blood Cells in Microscopy Images to Aid in Sickle Cell Anemia Diagnosis. Electronics 9(3), 427 (2020), doi: 10.3390/electronics9030427.
+\bibitem{ref3} M. Shahzad et al., AneRBC dataset: a benchmark dataset for computer-aided anemia diagnosis using RBC images. Database 2024, baae120 (2024), doi: 10.1093/database/baae120.
+\bibitem{ref4} N.B. Bahadure, R. Khomane, A. Nittala, Anemia detection and classification from blood samples using data analysis and deep learning. Automatika 65(3), 1163--1176 (2024), doi: 10.1080/00051144.2024.2352317.
+\bibitem{ref5} N. Sehar, N. Krishnamoorthi, C. Vinoth Kumar, Deep Learning Model-Based Detection of Anemia from Conjunctiva Images. Healthc. Inform. Res. 31(1), 57--65 (2025), doi: 10.4258/hir.2025.31.1.57.
+\bibitem{ref6} \c{S}. K{\i}l{\i}\c{c}, Attention-Based Dual-Path Deep Learning for Blood Cell Image Classification Using ConvNeXt and Swin Transformer. J. Imaging Inform. Med. 39(1), 564--582 (2025), doi: 10.1007/s10278-025-01479-6.
+\bibitem{ref7} S. Alagu, K. Ganesan, A novel deep learning approach for sickle cell anemia detection in human RBCs using an improved wrapper-based feature selection technique in microscopic blood smear images. Biomed. Eng. Biomed. Tech. 68(2), 175--185 (2023), doi: 10.1515/bmt-2021-0127.
+\bibitem{ref8} D.P. Kingma, D.J. Rezende, S. Mohamed, M. Welling, Semi-supervised learning with deep generative models, in Proceedings of the 28th Conference on Neural Information Processing Systems (NeurIPS), Montreal, Canada, December 8--13 (2014), vol. 27, doi: 10.48550/arXiv.1406.5298.
+\bibitem{ref9} M. Wu, N. Goodman, Multimodal generative models for scalable weakly-supervised learning, in Proceedings of the 32nd Conference on Neural Information Processing Systems (NeurIPS), Montreal, Canada, December 3--8 (2018), vol. 31, pp. 5580--5590, doi: 10.48550/arXiv.1802.05335.
+\bibitem{ref10} M.N.I. Suvon et al., Multimodal Variational Autoencoder for Low-cost Cardiac Hemodynamics Instability Detection. arXiv preprint arXiv:2403.13658 (2024), doi: 10.48550/arXiv.2403.13658.
+\end{thebibliography}
+
+\end{document}

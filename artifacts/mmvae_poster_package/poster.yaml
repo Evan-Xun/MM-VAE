@@ -1,0 +1,47 @@
+poster:
+  title: "A Multimodal Variational Autoencoder for Anemia Screening via CBC Indicators and Blood Smear Imagery"
+  dimensions:
+    width_inches: 23.39
+    height_inches: 33.11
+    orientation: portrait
+    dimensions_mm: "594 x 841"
+  audience: "Conference reviewers, clinical informatics researchers, laboratory-medicine practitioners"
+  language: en
+  style:
+    palette:
+      navy: "#153A5B"
+      teal: "#008C95"
+      light_cyan: "#EAF7F8"
+      gold: "#F4BE4F"
+      white: "#FFFFFF"
+    typography:
+      heading: "Arial"
+      body: "Arial"
+    layout: "portrait_two_column_with_full_width_evidence_band"
+  narrative:
+    takeaway: "MM-VAE remains stable without HGB while PoE fusion improves five-seed mean performance and supports missing-modality inference."
+    sections:
+      - "Why multimodal screening"
+      - "Patient-level workflow"
+      - "PoE MM-VAE"
+      - "Main comparison"
+      - "HGB ablation"
+      - "Missing-modality robustness"
+      - "Clinical interpretation and limitations"
+  verified_metrics:
+    mean_f1_five_seeds: "0.786 +/- 0.007"
+    mean_roc_auc_five_seeds: "0.856 +/- 0.021"
+    hgb_ablation_mmvae_f1: "0.7950 -> 0.7952"
+    hgb_ablation_mmvae_roc_auc: "0.8390 -> 0.8234"
+    missing_image_roc_auc: "0.7262"
+    missing_cbc_roc_auc: "0.5892"
+  required_visuals:
+    - "workflow figure"
+    - "MM-VAE architecture"
+    - "main comparison chart"
+    - "HGB ablation chart"
+    - "gradual missingness chart"
+  placeholders:
+    - "QR / project link"
+    - "venue logo"
+    - "institution logo"

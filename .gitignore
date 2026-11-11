@@ -1,0 +1,20 @@
+.DS_Store
+.idea/
+.claude/
+__pycache__/
+*.py[cod]
+.venv/
+.docx_qa/
+.docx_template_work/
+.tmp_poster_rebuild/
+
+# Public source dataset is too large for Git and should be downloaded separately.
+AneRBC dataset a benchmark dataset for computer-aided anemia diagnosis using RBC images. httpsdoi.org10.1093databasebaae120/
+
+results/checkpoints/*.pt
+results/checkpoints/*.pkl
+results/logs/*.csv
+results/metrics/*.json
+results/metrics/all_results_summary.csv
+results/plots/*.png
+results/predictions/*.csv

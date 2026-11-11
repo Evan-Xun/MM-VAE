@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="190" viewBox="0 0 1280 190">
+  <rect width="1280" height="190" fill="#ffffff"/>
+  <g font-family="Times New Roman, serif" fill="#111111">
+    <rect x="6" y="4" width="1234" height="178" fill="#ffffff" stroke="#222222" stroke-width="2"/>
+    <line x1="238" y1="4" x2="238" y2="182" stroke="#222222" stroke-width="2"/>
+    <line x1="410" y1="4" x2="410" y2="182" stroke="#222222" stroke-width="2"/>
+    <line x1="582" y1="4" x2="582" y2="182" stroke="#222222" stroke-width="2"/>
+    <line x1="727" y1="4" x2="727" y2="182" stroke="#222222" stroke-width="2"/>
+    <line x1="908" y1="4" x2="908" y2="182" stroke="#222222" stroke-width="2"/>
+    <line x1="1053" y1="4" x2="1053" y2="182" stroke="#222222" stroke-width="2"/>
+    <line x1="1240" y1="4" x2="1240" y2="182" stroke="#222222" stroke-width="2"/>
+    <line x1="6" y1="62" x2="1240" y2="62" stroke="#222222" stroke-width="2"/>
+
+    <text x="20" y="43" font-size="30" font-weight="700">Model</text>
+    <text x="252" y="43" font-size="30" font-weight="700">Accuracy</text>
+    <text x="424" y="43" font-size="30" font-weight="700">Precision</text>
+    <text x="596" y="43" font-size="30" font-weight="700">Recall</text>
+    <text x="741" y="43" font-size="30" font-weight="700">Specificity</text>
+    <text x="922" y="43" font-size="30" font-weight="700">F1</text>
+    <text x="1067" y="43" font-size="30" font-weight="700">ROC-AUC</text>
+
+    <text x="20" y="103" font-size="32">Rule-based</text>
+    <text x="20" y="163" font-size="32">(HGB &lt; 13 g/dL)</text>
+    <text x="252" y="103" font-size="32">0.6000</text>
+    <text x="424" y="103" font-size="32">0.5641</text>
+    <text x="596" y="103" font-size="32">0.8800</text>
+    <text x="741" y="103" font-size="32">0.3200</text>
+    <text x="922" y="103" font-size="32">0.6875</text>
+    <text x="1067" y="103" font-size="32">N/A</text>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+seed: 42
+train_ratio: 0.70
+val_ratio: 0.15
+test_ratio: 0.15
+batch_size: 16
+epochs: 100
+early_stopping_patience: 15
+image_size: 224
+backbone: resnet18
+pooling: mean
+pretrained: false
